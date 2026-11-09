@@ -6,6 +6,7 @@ import org.arg.base.Speed;
 import org.arg.engine.GameContext;
 import org.arg.engine.GameStatus;
 
+import org.arg.engine.PhysicsEngine;
 import org.arg.input.KeyBoardStatus;
 import org.arg.model.Player;
 import org.arg.view.GameRenderer;
@@ -61,12 +62,18 @@ public class Game extends JPanel {
         //HILO MUSICA DE FONDO
         //HILO EFECTOS SONIDO
         //HILO DE LA FISICA
+        Thread physicsEngineThread = new Thread(
+                new PhysicsEngine(gameContext, gameBoard)
+        );
+
         this.gameRenderer = new GameRenderer(
                 this.gameContext, this.gameBoard, this);
 
         // Iniciar los hilos
 
+
         this.gameRenderer.start();
+        physicsEngineThread.start();
     }
 
 

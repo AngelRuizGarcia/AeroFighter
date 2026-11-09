@@ -104,7 +104,7 @@ public class GameRenderer extends Thread {
 
             switch (gameContext.getStatus()){
                 case MENU -> {
-
+                    renderMenu(g);
                 }
                 case PLAYING -> {
                     //dibujar los elementos
@@ -118,12 +118,9 @@ public class GameRenderer extends Thread {
                 }
                 case PAUSED -> {
                     renderPause(g);
-                    if (gameContext.getStatus() != GameStatus.PLAYING){
-                        gameContext.setStatus(GameStatus.PLAYING);
-                    }
                 }
                 case GAME_OVER -> {
-
+                    renderGameOver(g);
                 }
             }
 
@@ -145,6 +142,22 @@ public class GameRenderer extends Thread {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, 16));
         String subText = "Press P to Resume";
+        int textWidthSub = g.getFontMetrics().stringWidth(subText);
+        g.drawString(subText, (gameBoard.getArea().width - textWidthSub) / 2, (gameBoard.getArea().height / 2) + 40);
+    }
+
+    private void renderGameOver(Graphics g){
+        g.setColor(Color.RED);
+        g.setFont(new Font("Arial", Font.PLAIN, 16));
+        String subText = "GAME OVER. You lose";
+        int textWidthSub = g.getFontMetrics().stringWidth(subText);
+        g.drawString(subText, (gameBoard.getArea().width - textWidthSub) / 2, (gameBoard.getArea().height / 2) + 40);
+    }
+
+    private void renderMenu(Graphics g){
+        g.setColor(Color.GREEN);
+        g.setFont(new Font("Arial", Font.PLAIN, 16));
+        String subText = "Press any key to play";
         int textWidthSub = g.getFontMetrics().stringWidth(subText);
         g.drawString(subText, (gameBoard.getArea().width - textWidthSub) / 2, (gameBoard.getArea().height / 2) + 40);
     }
@@ -171,8 +184,15 @@ public class GameRenderer extends Thread {
 
     private void renderElements(Graphics g) {
         for (Element element : gameBoard.getElements()) {
-            if (element instanceof Bullet) {
-
+            if (element instanceof Bullet b) {
+                g.drawImage(
+                        ImageResource.BALAENEMY.getImage(),
+                        (int) b.getPosition().getX(),
+                        (int) b.getPosition().getY(),
+                        b.getSize().getWidth(),
+                        b.getSize().getHeight(),
+                        null
+                );
             }
             if (element instanceof Enemy e) {
                 g.drawImage(
