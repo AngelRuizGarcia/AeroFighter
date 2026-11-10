@@ -46,7 +46,6 @@ public class GameRenderer extends Thread {
             lastUpdateTime = now;
 
             gameBoard.processInput();
-            System.out.println("Pintando. " + gameContext.getStatus());
             //DECIDIR EN FUNCIÓN DEL ESTADO QUE HACER, CASI
             //SIEMPRE LLAMAR AL JPANEL PARA REPINTAR
             gamePanel.repaint();

@@ -18,15 +18,16 @@ public class PhysicsEngine implements Runnable {
 
     public void run() {
         long lastUpdateTime = System.nanoTime();
-        while (gameContext.getStatus() != GameStatus.PAUSED || gameContext.getStatus() != GameStatus.MENU) {
+        while (true) {
             long now = System.nanoTime();
             long updateLength = now - lastUpdateTime;
             lastUpdateTime = now;
-            gameBoard.processInput();
-            //DECIDIR EN FUNCIÓN DEL ESTADO QUE HACER, CASI
-            //SIEMPRE LLAMAR AL JPANEL PARA REPINTAR
-            System.out.println("Physics. " + gameContext.getStatus());
-            gameBoard.update(now - updateLength);
+            if (gameContext.getStatus() == GameStatus.PLAYING) {
+                gameBoard.processInput();
+                //DECIDIR EN FUNCIÓN DEL ESTADO QUE HACER, CASI
+                //SIEMPRE LLAMAR AL JPANEL PARA REPINTAR
+                gameBoard.update(now - updateLength);
+            }
 
 
             long processingTime = System.nanoTime() - lastUpdateTime;
