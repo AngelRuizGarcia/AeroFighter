@@ -31,9 +31,9 @@ public class KeyBoardStatus {
             case KeyEvent.VK_D:
                 debugging = !debugging;
                 break;
-                case KeyEvent.VK_P:
-                    isPaused = true;
-                    break;
+            case KeyEvent.VK_P:
+                isPaused = true;
+                break;
         }
     }
 
@@ -79,9 +79,11 @@ public class KeyBoardStatus {
     public synchronized boolean isShooting() {
         return shooting;
     }
-public synchronized boolean isDebugging() {
+
+    public synchronized boolean isDebugging() {
         return debugging;
-}
+    }
+
     public synchronized boolean consumeShooting() {
         if (shooting) {
             shooting = false; // Se resetea inmediatamente al leerlo
