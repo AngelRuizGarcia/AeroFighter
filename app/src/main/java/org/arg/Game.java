@@ -7,6 +7,7 @@ import org.arg.engine.GameContext;
 import org.arg.engine.GameStatus;
 
 import org.arg.engine.PhysicsEngine;
+import org.arg.engine.audio.BGAudioEngine;
 import org.arg.input.KeyBoardStatus;
 import org.arg.model.Player;
 import org.arg.view.GameRenderer;
@@ -60,6 +61,9 @@ public class Game extends JPanel {
         //CREAR E INICIAR LOS HILOS
         //HILO PARA PINTAR
         //HILO MUSICA DE FONDO
+        Thread bgAudioEngine = new Thread(
+                new BGAudioEngine()
+        );
         //HILO EFECTOS SONIDO
         //HILO DE LA FISICA
         Thread physicsEngineThread = new Thread(
@@ -74,6 +78,7 @@ public class Game extends JPanel {
 
         this.gameRenderer.start();
         physicsEngineThread.start();
+        bgAudioEngine.start();
     }
 
 
