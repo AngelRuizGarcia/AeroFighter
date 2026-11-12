@@ -62,7 +62,7 @@ public class Game extends JPanel {
         //HILO PARA PINTAR
         //HILO MUSICA DE FONDO
         Thread bgAudioEngine = new Thread(
-                new BGAudioEngine()
+                new BGAudioEngine(gameContext)
         );
         //HILO EFECTOS SONIDO
         //HILO DE LA FISICA
