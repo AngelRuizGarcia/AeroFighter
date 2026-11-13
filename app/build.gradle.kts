@@ -19,6 +19,7 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
+    implementation("javazoom:jlayer:1.0.1")
 }
 
 testing {
