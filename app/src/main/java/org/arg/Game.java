@@ -8,6 +8,7 @@ import org.arg.engine.GameStatus;
 
 import org.arg.engine.PhysicsEngine;
 import org.arg.engine.audio.BGAudioEngine;
+import org.arg.engine.audio.SoundEffectEngine;
 import org.arg.input.KeyBoardStatus;
 import org.arg.model.Player;
 import org.arg.view.GameRenderer;
@@ -29,6 +30,7 @@ public class Game extends JPanel {
 
     private final GameBoard gameBoard;
     private final GameRenderer gameRenderer;
+    private final Thread bgAudioEngine, physicsEngineThread, effectEngineThread;
     private volatile Player player;
 
 
@@ -61,13 +63,17 @@ public class Game extends JPanel {
         //CREAR E INICIAR LOS HILOS
         //HILO PARA PINTAR
         //HILO MUSICA DE FONDO
-        Thread bgAudioEngine = new Thread(
+        this.bgAudioEngine = new Thread(
                 new BGAudioEngine(gameContext)
         );
         //HILO EFECTOS SONIDO
         //HILO DE LA FISICA
-        Thread physicsEngineThread = new Thread(
+        this.physicsEngineThread = new Thread(
                 new PhysicsEngine(gameContext, gameBoard)
+        );
+
+        this.effectEngineThread = new Thread(
+                new SoundEffectEngine(gameContext)
         );
 
         this.gameRenderer = new GameRenderer(
@@ -79,6 +85,7 @@ public class Game extends JPanel {
         this.gameRenderer.start();
         physicsEngineThread.start();
         bgAudioEngine.start();
+        effectEngineThread.start();
     }
 
 
@@ -126,14 +133,21 @@ public class Game extends JPanel {
 
             if (gameRenderer != null)
                 gameRenderer.join();
+            if (bgAudioEngine != null)
+                bgAudioEngine.join();
+            if (effectEngineThread != null)
+                effectEngineThread.join();
+            if (physicsEngineThread != null)
+                physicsEngineThread.join();
             System.out.println("fin de juego");
-        System.exit(0);
+            System.exit(0);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
+
     public static void main(String[] args) throws InterruptedException {
-        Game game = new Game(7,  2, new Rectangle(0, 0,
+        Game game = new Game(7, 2, new Rectangle(0, 0,
                 WIDTH,
                 HEIGHT));
     }
